@@ -50,7 +50,15 @@ def get_pictures():
 
 @app.route("/picture/<int:id>", methods=["GET"])
 def get_picture_by_id(id):
-    pass
+    try:
+        for chunk in data:
+            if chunk.get('id', None) == id:
+                return chunk
+
+    except NameError:
+        return {"message": "internal error"}, 500
+
+    return {"message": "data not found"}, 404
 
 
 ######################################################################
