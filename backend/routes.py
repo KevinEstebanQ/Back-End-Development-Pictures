@@ -35,7 +35,13 @@ def count():
 ######################################################################
 @app.route("/picture", methods=["GET"])
 def get_pictures():
-    pass
+    """returns all pictures"""
+    try:
+        if len(data) > 0:
+            return jsonify(data)
+
+    except NameError:
+        return {"message": "internal server error"}, 500
 
 ######################################################################
 # GET A PICTURE
