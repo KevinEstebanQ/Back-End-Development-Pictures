@@ -27,7 +27,7 @@ def count():
     if data:
         return jsonify(length=len(data)), 200
 
-    return {"message": "Internal server error"}, 500
+    return {"Message": "Internal server error"}, 500
 
 
 ######################################################################
@@ -41,7 +41,7 @@ def get_pictures():
             return jsonify(data)
 
     except NameError:
-        return {"message": "internal server error"}, 500
+        return {"Message": "internal server error"}, 500
 
 ######################################################################
 # GET A PICTURE
@@ -56,9 +56,9 @@ def get_picture_by_id(id):
                 return chunk
 
     except NameError:
-        return {"message": "internal error"}, 500
+        return {"Message": "internal error"}, 500
 
-    return {"message": "data not found"}, 404
+    return {"Message": "data not found"}, 404
 
 
 ######################################################################
@@ -66,7 +66,19 @@ def get_picture_by_id(id):
 ######################################################################
 @app.route("/picture", methods=["POST"])
 def create_picture():
-    pass
+    picture = request.get_json()
+    if not picture:
+        return {"Message": "invalid or incomplete data"}, 400
+    try:
+        for chunk in data:
+            if chunk.get('id') == picture.get('id'):
+                return {"Message": f"picture with id {picture.get('id')} already present"}, 302
+
+        data.append(picture)
+        return picture, 201
+
+    except Exception:
+        return {"Message": "internal error"}, 500
 
 ######################################################################
 # UPDATE A PICTURE
